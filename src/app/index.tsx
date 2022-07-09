@@ -31,7 +31,7 @@ const Styles = styled.div`
   }
 `;
 
-const JSON = [
+const JSON: Log[] = [
   {
     level: "ERROR",
     message: "hello there!",
@@ -85,10 +85,11 @@ function SelectColumnFilter({
 }: any) {
   const options = useMemo(() => {
     const options = new Set();
+    //@ts-ignore
     preFilteredRows.forEach((row) => {
       options.add(row.values[id]);
     });
-    return [...options.values()];
+    return [...options.values()] as string[];
   }, [id, preFilteredRows]);
 
   return (
@@ -164,7 +165,12 @@ const Table = ({ data }: { data: Log[] }) => {
 
               <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                 {column.render("Header")}
-                <div>{column.canFilter ? column.render("Filter") : null}</div>
+                <div>
+                  {
+                    //@ts-ignore
+                    column.canFilter ? column.render("Filter") : null
+                  }
+                </div>
               </th>
             ))}
           </tr>
