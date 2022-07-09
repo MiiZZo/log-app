@@ -66,7 +66,7 @@ const JSON = [
 
 function DefaultColumnFilter({
   column: { filterValue, preFilteredRows, setFilter },
-}) {
+}: any) {
   const count = preFilteredRows.length;
 
   return (
@@ -82,7 +82,7 @@ function DefaultColumnFilter({
 
 function SelectColumnFilter({
   column: { filterValue, setFilter, preFilteredRows, id },
-}) {
+}: any) {
   const options = useMemo(() => {
     const options = new Set();
     preFilteredRows.forEach((row) => {
@@ -135,6 +135,7 @@ const Table = ({ data }: { data: Log[] }) => {
           Header: "Date",
           accessor: "timestamp",
           sortType: (a: any, b: any) => {
+            //@ts-ignore
             return new Date(b.values.timestamp) - new Date(a.values.timestamp);
           },
           disableFilters: true,
@@ -146,6 +147,7 @@ const Table = ({ data }: { data: Log[] }) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable(
       {
+                    //@ts-ignore
         columns,
         data,
       }, 
@@ -158,7 +160,8 @@ const Table = ({ data }: { data: Log[] }) => {
       <thead>
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column) => (
+            {headerGroup.headers.map((column) => (            //@ts-ignore
+
               <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                 {column.render("Header")}
                 <div>{column.canFilter ? column.render("Filter") : null}</div>
